@@ -1,39 +1,87 @@
-import React,{ Component } from 'react'
-import { Tab, Text } from 'native-base'
-
+import React, { Component } from 'react'
+import { Alert, Share } from 'react-native'
+import { Text } from 'native-base'
+ 
 import { getArticles } from '../../service/api'
-import TabContent from '../tabs/TabContent'
-import { Alert } from 'react-native'
+import TabContent from '../Tabs/TabContent'
 
 class TabContentContainer extends Component {
     state = {
-        articles: [],
-        isLoading: true,
-        source: this.props.source || 'bbc-news'
+      articleData: {},
+      articles: [],
+      isLoading: true,
+      modalVisible: false,
+      source: this.props.source || 'bbc-news'
     }
 
-    componentDidMount(){
+    // Lifecycle Methods
+
+    componentDidMount() {
         const { source } = this.state
-        this.fetchNews()
+        this.fetchNews(source)
     }
 
     //API Call Functions
 
-    fetchNews = async (source) => {
-        getArticles(source).then(articles => {
-            console.log('articles', articles)
+    fetchNews = async source => {
+        getArticles(source).then(
+          articles => {
             this.setState({
-                articles: articles,
-                isLoading: false
+              articles: articles,
+              isLoading: false
             })
-        },error => {
-            Alert.alert('Error', 'something went wrong')
-        })
+          },
+          error => {
+            Alert.alert('Error', `Something went wrong! ${error}`)
+          })
     }
 
+    //Handler Functions
+
+    handleArticlePress = ({ title, url}) => {
+      this.setState({
+        modalVisible: true,
+        articleData: {
+          title,
+          url
+        }
+      })
+    }
+
+    handleArticleModalClose = () => {
+      this.setState({
+        modalVisible: false,
+        articleData: {}
+      })
+    }
+
+    handleArticleShare = (title, url) => {
+      const message = `${title}\n\nRead More @${url}\n\\n Shared via RN News App`
+      return Share.share(
+        {
+          title,
+          message,
+          url: message
+        },
+        {
+          dialogTitle: `Share ${title}`
+        }
+      )
+    }
+  
+
     render() {
+        const { articles, articleData, isLoading, modalVisible } = this.state
         return (
-            <Text>Hello</Text>
+            <TabContent
+                articles={articles}
+                articleData={articleData}
+                isLoading={isLoading}
+                onArticlePress={this.handleArticlePress}
+                onArticleModalClose={this.handleArticleModalClose}
+                onArticleShare={this.handleArticleShare}
+                modalVisible={modalVisible}
+            />
         )
     }
 }

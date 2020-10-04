@@ -21,31 +21,30 @@ import TabContentContainer from '../container/TabContentContainer'
     ]
 
     return (
-        <Container>
-          <Header style={styles.header} hasTabs>
-            <Left />
-            <Body>
-              <Title style={styles.title}>News App</Title>
-            </Body>
-            <Right />
-          </Header>
-    
-          <Tabs tabBarUnderlineStyle={styles.tabs}>
-              {sources.map((source,index) => (
-                  <Tab 
-                    key={index}
-                    heading={source.name}
-                    tabStyle={styles.tabStyle}
-                    activeTabStyle={styles.activeTabStyle}
-                    textStyle={styles.tabText}
-                    activeTextStyle={styles.tabText}
-                  >
-                      <TabContentContainer />
-                  </Tab>
-              ))}
-          </Tabs>
-        </Container>
-      )
+      <Container>
+        <Header style={styles.header} hasTabs>
+          <Left />
+          <Body>
+            <Title style={styles.title}>News App</Title>
+          </Body>
+          <Right />
+        </Header>
+        <Tabs tabBarUnderlineStyle={styles.tabs}>
+          {sources.map((source, index) => (
+            <Tab
+              key={index}
+              heading={source.name}
+              tabStyle={styles.tabStyle}
+              activeTabStyle={styles.activeTabStyle}
+              textStyle={styles.tabText}
+              activeTextStyle={styles.tabText}
+            >
+              <TabContentContainer source={source.id} />
+            </Tab>
+          ))}
+        </Tabs>
+      </Container>
+    )
 
   }
   

@@ -2,26 +2,55 @@ import React from 'react'
 import { Container, List } from 'native-base'
 import { StyleSheet } from 'react-native'
 
+import Article from '../Article'
+import Loading from '../Loading'
 
-const TabContent = (props) => {
+import ArticleModals from '../modals/ArticleModals'
 
-    const { articles, articleData, isLoading } = props
+const TabContent = props => {
+  const {
+    articleData,
+    articles,
+    isLoading,
+    modalVisible,
+    onArticlePress,
+    onArticleModalClose,
+    onArticleShare
+  } = props
 
-    const renderArticle = () => (
-        <List
-            dataArray={articles}
-            renderRow={(article) => {
-                return (
-                    <Article />
-                )
-            }}
-        >
-        </List>
-    )
+  const renderLoadingState = () => (
+    <Loading isLoading={isLoading} style={styles.loadingState} />
+  )
 
-    return(
-        <Container></Container>
-    )
+  const renderArticles = () => (
+    <List
+      dataArray={articles}
+      renderRow={article => {
+        return <Article article={article} onPress={onArticlePress} />
+      }}
+      keyExtractor={(article, index) => index.toString()}
+    />
+  )
+
+  const renderContent = () =>
+    isLoading ? renderLoadingState() : renderArticles()
+  return (
+    <Container>
+      {renderContent()}
+      <ArticleModals
+        articleData={articleData}
+        onClose={onArticleModalClose}
+        onShare={onArticleShare}
+        showModal={modalVisible}
+      />
+    </Container>
+  )
 }
+
+const styles = StyleSheet.create({
+  loadingState: {
+    marginTop: 250
+  }
+})
 
 export default TabContent
