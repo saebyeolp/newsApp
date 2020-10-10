@@ -19,3 +19,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 })
+
+// code from https://github.com/paulhklam1122/news-app-wmdd-4999-sept-2020

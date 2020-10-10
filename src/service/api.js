@@ -17,3 +17,5 @@ export const getArticles = async source => {
     throw error
   }
 }
+
+// code from https://github.com/paulhklam1122/news-app-wmdd-4999-sept-2020

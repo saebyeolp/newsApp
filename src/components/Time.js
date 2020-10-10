@@ -20,3 +20,5 @@ const Time = props => {
   })
   
   export default Time
+
+  // code from https://github.com/paulhklam1122/news-app-wmdd-4999-sept-2020

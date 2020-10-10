@@ -60,3 +60,5 @@ const styles = StyleSheet.create({
 })
 
 export default Article
+
+// code from https://github.com/paulhklam1122/news-app-wmdd-4999-sept-2020
